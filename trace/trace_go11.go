@@ -12,21 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//go:build go1.11
 // +build go1.11
 
 package trace
 
 import (
 	"context"
-	t "runtime/trace"
 )
 
 func startExecutionTracerTask(ctx context.Context, name string) (context.Context, func()) {
-	if !t.IsEnabled() {
-		// Avoid additional overhead if
-		// runtime/trace is not enabled.
-		return ctx, func() {}
-	}
-	nctx, task := t.NewTask(ctx, name)
-	return nctx, task.End
+	return ctx, func() {}
 }
